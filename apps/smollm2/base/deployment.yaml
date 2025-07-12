@@ -43,33 +43,6 @@ spec:
           value: "true"
         - name: VLLM_CPU_SWAP_SPACE
           value: "0"
-        - name: VLLM_DISABLE_DISK_CACHE
-          value: "true"
-        - name: VLLM_MAX_MODEL_LEN
-          value: "512"
-        - name: VLLM_MAX_NUM_SEQS
-          value: "4"
-        # Critical threading configuration
-        - name: OMP_NUM_THREADS
-          value: "1"
-        - name: MKL_NUM_THREADS
-          value: "1"
-        - name: NUMBA_NUM_THREADS
-          value: "1"
-        - name: OPENBLAS_NUM_THREADS
-          value: "1"
-        - name: VECLIB_MAXIMUM_THREADS
-          value: "1"
-        - name: TORCH_NUM_THREADS
-          value: "1"
-        # Fix NUMA detection issues in containers
-        - name: VLLM_CPU_DISABLE_NUMA
-          value: "true"
-        - name: NUMA_DISABLE
-          value: "1"
-        # Ensure CPU affinity is properly set
-        - name: VLLM_CPU_KVCACHE_SPACE
-          value: "1"
         resources:
           limits:
             memory: 2Gi
