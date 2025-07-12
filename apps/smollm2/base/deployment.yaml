@@ -23,7 +23,9 @@ spec:
           "--max-model-len", "512",
           "--max-num-seqs", "4",
           "--tensor-parallel-size", "1",
-          "--disable-log-requests"
+          "--disable-log-requests",
+          "--cpu-omp-threads-bind", "0-1",
+          "--enforce-eager"
         ]
         ports:
         - containerPort: 8000
@@ -61,6 +63,13 @@ spec:
           value: "2"
         - name: TORCH_NUM_THREADS
           value: "2"
+        # Fix NUMA detection issues in containers
+        - name: VLLM_CPU_OMP_THREADS_BIND
+          value: "0-1"
+        - name: VLLM_CPU_DISABLE_NUMA
+          value: "true"
+        - name: NUMA_DISABLE
+          value: "1"
         # Ensure CPU affinity is properly set
         - name: VLLM_CPU_KVCACHE_SPACE
           value: "1"
