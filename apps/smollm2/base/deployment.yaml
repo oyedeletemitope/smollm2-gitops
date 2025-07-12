@@ -18,7 +18,7 @@ spec:
         image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
         command: ["vllm", "serve"]
         args: [
-          "/model",
+          "/model",  # or a valid HF model like "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
           "--swap-space", "0",
           "--max-model-len", "512",
           "--max-num-seqs", "4",
