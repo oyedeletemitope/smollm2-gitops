@@ -43,6 +43,8 @@ spec:
           value: "true"
         - name: VLLM_CPU_SWAP_SPACE
           value: "0"
+        - name: VLLM_CPU_NUMA_NODES
+          value: "1"
         resources:
           limits:
             memory: 2Gi
