@@ -29,32 +29,30 @@ spec:
         ports:
         - containerPort: 8000
         env:
-        - name: VLLM_DEVICE
-          value: "cpu"
-        - name: VLLM_LOGGING_LEVEL
-          value: "INFO"
-        - name: CUDA_VISIBLE_DEVICES
-          value: ""
-        - name: VLLM_WORKER_MULTIPROC_METHOD
-          value: "spawn"
-        - name: VLLM_ENFORCE_EAGER
-          value: "true"
-        - name: VLLM_DISABLE_CUSTOM_ALL_REDUCE
-          value: "true"
-        - name: VLLM_CPU_SWAP_SPACE
-          value: "0"
-        - name: VLLM_DISABLE_DISK_CACHE
-          value: "true"
-        - name: VLLM_MAX_MODEL_LEN
-          value: "512"
-        - name: VLLM_MAX_NUM_SEQS
-          value: "4"
-        - name: VLLM_CPU_OMP_THREADS_BIND
-          value: ""
-        - name: OMP_NUM_THREADS
-          value: "2"  # Increased from 1
-        - name: VLLM_CPU_KVCACHE_SPACE
-          value: "1"
+      - name: VLLM_DEVICE
+        value: "cpu"
+      - name: VLLM_LOGGING_LEVEL
+        value: "INFO"
+      - name: CUDA_VISIBLE_DEVICES
+        value: ""
+      - name: VLLM_WORKER_MULTIPROC_METHOD
+        value: "spawn"
+      - name: VLLM_ENFORCE_EAGER
+        value: "true"
+      - name: VLLM_DISABLE_CUSTOM_ALL_REDUCE
+        value: "true"
+      - name: VLLM_CPU_SWAP_SPACE
+        value: "0"
+      - name: VLLM_DISABLE_DISK_CACHE
+        value: "true"
+      - name: VLLM_MAX_MODEL_LEN
+        value: "512"
+      - name: VLLM_MAX_NUM_SEQS
+        value: "4"
+      - name: OMP_NUM_THREADS
+        value: "2"
+      - name: VLLM_NUM_CPU_THREADS
+        value: "2"
         resources:
           limits:
             memory: 2Gi      # Increased memory
