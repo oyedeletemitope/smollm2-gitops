@@ -21,7 +21,8 @@ spec:
           "--swap-space", "0",
           "--max-model-len", "512",
           "--max-num-seqs", "4",
-          "--tensor-parallel-size", "1"
+          "--tensor-parallel-size", "1",
+          "--disable-log-requests"
         ]
         ports:
         - containerPort: 8000
@@ -46,6 +47,12 @@ spec:
           value: "512"
         - name: VLLM_MAX_NUM_SEQS
           value: "4"
+        - name: VLLM_CPU_OMP_THREADS_BIND
+          value: ""
+        - name: OMP_NUM_THREADS
+          value: "1"
+        - name: VLLM_CPU_KVCACHE_SPACE
+          value: "1"
         resources:
           limits:
             memory: 1Gi     # Much smaller for constrained environment
@@ -57,18 +64,18 @@ spec:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 30  # Increased for model loading
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
+          initialDelaySeconds: 120  # Much longer for model loading
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 10
         livenessProbe:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 60   # Increased for initial startup
-          periodSeconds: 30
-          timeoutSeconds: 10
-          failureThreshold: 3
+          initialDelaySeconds: 180   # Very long initial delay
+          periodSeconds: 60
+          timeoutSeconds: 15
+          failureThreshold: 5
       nodeSelector:
         kubernetes.io/arch: arm64
 ---
