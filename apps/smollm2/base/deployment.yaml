@@ -16,7 +16,7 @@ spec:
       containers:
       - name: vllm
         image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
-        command: ["vllm", "serve", "--model", "/model"]
+        command: ["vllm", "serve", "/model"]
         ports:
         - containerPort: 8000
         env:
