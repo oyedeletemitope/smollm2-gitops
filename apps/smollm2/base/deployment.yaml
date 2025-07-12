@@ -66,7 +66,9 @@ spec:
           value: "2"
         - name: OPENBLAS_NUM_THREADS
           value: "2"
-        
+        - name: VLLM_CPU_NUMA_NODES
+          value: "1"
+
         resources:
           limits:
             memory: 2Gi
