@@ -60,7 +60,7 @@ metadata:
   namespace: default
 spec:
   selector:
-    app: smollm2-vllm
+    app: smollm2-vllm-vllm
   ports:
   - port: 8000
     targetPort: 8000
