@@ -40,10 +40,10 @@ spec:
           value: ""
         resources:
           limits:
-            memory: 3Gi
+            memory: 2Gi     # Reduced to fit available memory
             cpu: "1"
           requests:
-            memory: 2Gi
+            memory: 1.5Gi   # Conservative request
             cpu: "0.5"
         # Increased timeouts for model loading
         readinessProbe:
