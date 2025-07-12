@@ -16,13 +16,16 @@ spec:
       containers:
       - name: vllm
         image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
-        command: ["vllm", "serve", "/model"]
+        command: ["python", "-m", "vllm.entrypoints.openai.api_server"]
         args: [
+          "--model", "/model",
+          "--host", "0.0.0.0",
+          "--port", "8000",
           "--swap-space", "0",
           "--max-model-len", "512",
           "--max-num-seqs", "4",
-          "--tensor-parallel-size", "1",
-          "--disable-log-requests"
+          "--disable-log-requests",
+          "--worker-use-ray", "false"
         ]
         ports:
         - containerPort: 8000
@@ -48,11 +51,15 @@ spec:
         - name: VLLM_MAX_NUM_SEQS
           value: "4"
         - name: VLLM_CPU_OMP_THREADS_BIND
-          value: ""
+          value: "0"
         - name: OMP_NUM_THREADS
-          value: "1"
+          value: "2"
         - name: VLLM_CPU_KVCACHE_SPACE
           value: "1"
+        - name: MKL_NUM_THREADS
+          value: "2"
+        - name: OPENBLAS_NUM_THREADS
+          value: "2"
         resources:
           limits:
             memory: 1Gi     # Much smaller for constrained environment
