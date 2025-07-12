@@ -16,15 +16,13 @@ spec:
       containers:
       - name: vllm
         image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
-        command: ["vllm", "serve"]
+        command: ["vllm", "serve", "/model"]
         args: [
-          "/model",  # or a valid HF model like "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
           "--swap-space", "0",
           "--max-model-len", "512",
           "--max-num-seqs", "4",
           "--tensor-parallel-size", "1",
-          "--disable-log-requests",
-          "--enforce-eager"
+          "--disable-log-requests"
         ]
         ports:
         - containerPort: 8000
@@ -43,20 +41,30 @@ spec:
           value: "true"
         - name: VLLM_CPU_SWAP_SPACE
           value: "0"
-        - name: VLLM_CPU_NUMA_NODES
+        - name: VLLM_DISABLE_DISK_CACHE
+          value: "true"
+        - name: VLLM_MAX_MODEL_LEN
+          value: "512"
+        - name: VLLM_MAX_NUM_SEQS
+          value: "4"
+        - name: VLLM_CPU_OMP_THREADS_BIND
+          value: ""
+        - name: OMP_NUM_THREADS
+          value: "2"  # Increased from 1
+        - name: VLLM_CPU_KVCACHE_SPACE
           value: "1"
         resources:
           limits:
-            memory: 2Gi
-            cpu: "1000m"
+            memory: 2Gi      # Increased memory
+            cpu: "2"         # Increased CPU limit significantly
           requests:
-            memory: 1Gi
-            cpu: "500m"
+            memory: 1Gi      # Increased memory request
+            cpu: "1"         # Increased CPU request
         readinessProbe:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 180
+          initialDelaySeconds: 180  # Increased for slower startup
           periodSeconds: 30
           timeoutSeconds: 15
           failureThreshold: 10
@@ -64,7 +72,7 @@ spec:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 240
+          initialDelaySeconds: 240   # Increased initial delay
           periodSeconds: 60
           timeoutSeconds: 20
           failureThreshold: 5
