@@ -16,55 +16,61 @@ spec:
       containers:
       - name: vllm
         image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
-        # Use explicit command-line arguments instead of environment variables
-        command: 
-          - "vllm"
-          - "serve"
-          - "/model"
-          - "--cpu-swap-space"
-          - "0"
-          - "--disable-custom-all-reduce"
-          - "--enforce-eager"
-          - "--max-model-len"
-          - "1024"
-          - "--device"
-          - "cpu"
-          - "--worker-multiproc-method"
-          - "spawn"
+        command: ["vllm", "serve", "/model"]
+        args: [
+          "--swap-space", "0",
+          "--max-model-len", "512",
+          "--max-num-seqs", "4",
+          "--tensor-parallel-size", "1"
+        ]
         ports:
         - containerPort: 8000
         env:
+        - name: VLLM_DEVICE
+          value: "cpu"
         - name: VLLM_LOGGING_LEVEL
           value: "INFO"
         - name: CUDA_VISIBLE_DEVICES
           value: ""
+        - name: VLLM_WORKER_MULTIPROC_METHOD
+          value: "spawn"
+        - name: VLLM_ENFORCE_EAGER
+          value: "true"
+        - name: VLLM_DISABLE_CUSTOM_ALL_REDUCE
+          value: "true"
+        - name: VLLM_CPU_SWAP_SPACE
+          value: "0"
+        - name: VLLM_DISABLE_DISK_CACHE
+          value: "true"
+        - name: VLLM_MAX_MODEL_LEN
+          value: "512"
+        - name: VLLM_MAX_NUM_SEQS
+          value: "4"
         resources:
           limits:
-            memory: 2Gi     # Reduced to fit available memory
-            cpu: "1"
-          requests:
-            memory: 1.5Gi   # Conservative request
+            memory: 1Gi     # Much smaller for constrained environment
             cpu: "0.5"
-        # Increased timeouts for model loading
+          requests:
+            memory: 512Mi   # Minimal memory request
+            cpu: "0.25"
         readinessProbe:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30  # Increased for model loading
           periodSeconds: 10
           timeoutSeconds: 5
-          failureThreshold: 5
+          failureThreshold: 3
         livenessProbe:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 120
+          initialDelaySeconds: 60   # Increased for initial startup
           periodSeconds: 30
-          timeoutSeconds: 5
+          timeoutSeconds: 10
           failureThreshold: 3
       nodeSelector:
         kubernetes.io/arch: arm64
-
 ---
 apiVersion: v1
 kind: Service
