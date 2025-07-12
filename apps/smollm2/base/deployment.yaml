@@ -32,6 +32,8 @@ spec:
           value: "true"
         - name: VLLM_DISABLE_CUSTOM_ALL_REDUCE
           value: "true"
+        - name: VLLM_CPU_SWAP_SPACE
+          value: "2Gi"
         resources:
           limits:
             memory: 1Gi      # Much smaller than TinyLlama's 3Gi
