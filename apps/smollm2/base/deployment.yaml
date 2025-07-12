@@ -14,81 +14,32 @@ spec:
         app: smollm2-vllm-vllm
     spec:
       containers:
-      - name: vllm
-        image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
-        command: ["vllm", "serve"]
-        args: [
-          "/model",
-          "--swap-space", "0",
-          "--max-model-len", "512",
-          "--max-num-seqs", "4",
-          "--tensor-parallel-size", "1",
-          "--disable-log-requests"
-        ]
-
-        ports:
-        - containerPort: 8000
-        env:
-      - name: VLLM_DEVICE
-        value: "cpu"
-      - name: VLLM_LOGGING_LEVEL
-        value: "INFO"
-      - name: CUDA_VISIBLE_DEVICES
-        value: ""
-      - name: VLLM_WORKER_MULTIPROC_METHOD
-        value: "spawn"
-      - name: VLLM_ENFORCE_EAGER
-        value: "true"
-      - name: VLLM_DISABLE_CUSTOM_ALL_REDUCE
-        value: "true"
-      - name: VLLM_CPU_SWAP_SPACE
-        value: "0"
-      - name: VLLM_DISABLE_DISK_CACHE
-        value: "true"
-      - name: VLLM_MAX_MODEL_LEN
-        value: "512"
-      - name: VLLM_MAX_NUM_SEQS
-        value: "4"
-      - name: OMP_NUM_THREADS
-        value: "2"
-      - name: VLLM_NUM_CPU_THREADS
-        value: "2"
-        resources:
-          limits:
-            memory: 2Gi      # Increased memory
-            cpu: "2"         # Increased CPU limit significantly
-          requests:
-            memory: 1Gi      # Increased memory request
-            cpu: "1"         # Increased CPU request
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 180  # Increased for slower startup
-          periodSeconds: 30
-          timeoutSeconds: 15
-          failureThreshold: 10
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 240   # Increased initial delay
-          periodSeconds: 60
-          timeoutSeconds: 20
-          failureThreshold: 5
+        - name: vllm
+          image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
+          command: ["vllm", "serve", "TinyLlama/TinyLlama-1.1B-Chat-v1.0"] 
+          ports:
+            - containerPort: 8000
+          env:
+            - name: VLLM_DEVICE
+              value: "cpu"
+            - name: VLLM_LOGGING_LEVEL
+              value: "INFO"
+            - name: CUDA_VISIBLE_DEVICES
+              value: ""
+            - name: VLLM_WORKER_MULTIPROC_METHOD
+              value: "spawn"
+            - name: VLLM_ENFORCE_EAGER
+              value: "true"
+            - name: VLLM_DISABLE_CUSTOM_ALL_REDUCE
+              value: "true"
+            - name: VLLM_CPU_SWAP_SPACE
+              value: "0"
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: "2"
+            requests:
+              memory: 1Gi
+              cpu: "1"
       nodeSelector:
         kubernetes.io/arch: arm64
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: smollm2-service
-  namespace: default
-spec:
-  selector:
-    app: smollm2-vllm-vllm
-  ports:
-  - port: 8000
-    targetPort: 8000
-  type: ClusterIP
