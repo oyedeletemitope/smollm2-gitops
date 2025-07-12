@@ -36,10 +36,10 @@ spec:
           value: "0"  # Changed from "2Gi" to "0"
         resources:
           limits:
-            memory: 1Gi      # Much smaller than TinyLlama's 3Gi
+            memory: 3Gi     # Much smaller than TinyLlama's 3Gi
             cpu: "1"         # Single core sufficient
           requests:
-            memory: 800Mi    # Minimal memory footprint
+            memory: 2Gi    # Minimal memory footprint
             cpu: "0.5"       # Half core request
         readinessProbe:
           httpGet:
