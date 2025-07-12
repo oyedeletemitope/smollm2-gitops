@@ -24,7 +24,6 @@ spec:
           "--max-num-seqs", "4",
           "--tensor-parallel-size", "1",
           "--disable-log-requests",
-          "--cpu-omp-threads-bind", "0-1",
           "--enforce-eager"
         ]
         ports:
@@ -52,20 +51,18 @@ spec:
           value: "4"
         # Critical threading configuration
         - name: OMP_NUM_THREADS
-          value: "2"
+          value: "1"
         - name: MKL_NUM_THREADS
-          value: "2"
+          value: "1"
         - name: NUMBA_NUM_THREADS
-          value: "2"
+          value: "1"
         - name: OPENBLAS_NUM_THREADS
-          value: "2"
+          value: "1"
         - name: VECLIB_MAXIMUM_THREADS
-          value: "2"
+          value: "1"
         - name: TORCH_NUM_THREADS
-          value: "2"
+          value: "1"
         # Fix NUMA detection issues in containers
-        - name: VLLM_CPU_OMP_THREADS_BIND
-          value: "0-1"
         - name: VLLM_CPU_DISABLE_NUMA
           value: "true"
         - name: NUMA_DISABLE
@@ -75,11 +72,11 @@ spec:
           value: "1"
         resources:
           limits:
-            memory: 4Gi      # Increased memory for better stability
-            cpu: "2000m"     # Explicit millicpu notation
+            memory: 2Gi
+            cpu: "1000m"
           requests:
-            memory: 2Gi      # Increased memory request
-            cpu: "1000m"     # Explicit millicpu notation
+            memory: 1Gi
+            cpu: "500m"
         readinessProbe:
           httpGet:
             path: /health
