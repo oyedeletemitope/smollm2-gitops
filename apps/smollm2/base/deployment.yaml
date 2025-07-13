@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: vllm
-        image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.0"
+        image: "jozu.ml/oyedeletemitope76/smollm2-vllm/vllm-cpu:v1.0.1"
         command: ["vllm", "serve", "/model"]
         args: [
           "--swap-space", "0",
