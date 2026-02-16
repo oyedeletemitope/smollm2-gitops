@@ -14,6 +14,10 @@ spec:
         name: aqua
         namespace: flux-system
       interval: 1m
+  install:
+    createNamespace: true
+  upgrade:
+    createNamespace: true
   values:
     trivy:
       ignoreUnfixed: true
