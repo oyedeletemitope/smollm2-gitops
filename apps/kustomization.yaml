@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
   - smollm2/app.yaml
+  - observability/base/kustomization.yaml
+  - governance/base/kustomization.yaml
+  - security/base/kustomization.yaml
