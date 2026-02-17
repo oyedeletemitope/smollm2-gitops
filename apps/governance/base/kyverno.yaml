@@ -20,8 +20,19 @@ spec:
     backgroundController:
       replicas: 1
     cleanupController:
-      replicas: 1
+      enabled: true
+      rbac:
+        create: true
+        serviceAccount:
+          create: true
     reportsController:
-      replicas: 1
-    crds:
-        install: true
+      enabled: true
+      rbac:
+        create: true
+        serviceAccount:
+          create: true
+    cleanupJobs:
+      admissionReports:
+        enabled: false
+      clusterAdmissionReports:
+        enabled: false
