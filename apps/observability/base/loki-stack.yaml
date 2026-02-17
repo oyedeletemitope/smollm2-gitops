@@ -14,10 +14,6 @@ spec:
         name: grafana
         namespace: flux-system
       interval: 1m
-  install:
-    createNamespace: true
-  upgrade:
-    createNamespace: true
   values:
     loki:
       enabled: true

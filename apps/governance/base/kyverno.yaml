@@ -14,10 +14,6 @@ spec:
         name: kyverno
         namespace: flux-system
       interval: 1m
-  install:
-    createNamespace: true
-  upgrade:
-    createNamespace: true
   values:
     admissionController:
       replicas: 1

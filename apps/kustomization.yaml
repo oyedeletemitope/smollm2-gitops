@@ -3,6 +3,8 @@ kind: Kustomization
 
 resources:
   - smollm2/app.yaml
+  - namespaces.yaml
   - observability.yaml
   - governance.yaml
+  - governance-policies.yaml
   - security.yaml
