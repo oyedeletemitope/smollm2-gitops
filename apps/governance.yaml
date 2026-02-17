@@ -11,4 +11,4 @@ spec:
   path: ./apps/governance/base
   prune: true
   wait: true
-  timeout: 5m0s
+  timeout: 20m0s

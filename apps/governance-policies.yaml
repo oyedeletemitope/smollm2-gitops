@@ -11,6 +11,6 @@ spec:
   path: ./apps/governance/policies
   prune: true
   wait: true
-  timeout: 5m0s
+  timeout: 20m0s
   dependsOn:
     - name: governance
