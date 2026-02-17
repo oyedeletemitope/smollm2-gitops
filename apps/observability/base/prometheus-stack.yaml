@@ -14,6 +14,7 @@ spec:
         name: prometheus-community
         namespace: flux-system
       interval: 1m
+  timeout: 15m0s
   values:
     grafana:
       enabled: true
