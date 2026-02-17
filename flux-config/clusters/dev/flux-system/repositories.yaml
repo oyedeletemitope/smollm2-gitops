@@ -4,8 +4,9 @@ metadata:
   name: prometheus-community
   namespace: flux-system
 spec:
-  interval: 10m
-  url: https://prometheus-community.github.io/helm-charts
+  interval: 20m
+  type: oci
+  url: oci://ghcr.io/prometheus-community/charts
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
@@ -13,8 +14,9 @@ metadata:
   name: grafana
   namespace: flux-system
 spec:
-  interval: 10m
-  url: https://grafana.github.io/helm-charts
+  interval: 20m
+  type: oci
+  url: oci://ghcr.io/grafana/helm-charts
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
@@ -22,8 +24,9 @@ metadata:
   name: kyverno
   namespace: flux-system
 spec:
-  interval: 10m
-  url: https://kyverno.github.io/kyverno/
+  interval: 20m
+  type: oci
+  url: oci://ghcr.io/kyverno/charts
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
@@ -31,7 +34,7 @@ metadata:
   name: sealed-secrets
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 20m
   url: https://bitnami-labs.github.io/sealed-secrets
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
@@ -40,5 +43,6 @@ metadata:
   name: aqua
   namespace: flux-system
 spec:
-  interval: 10m
-  url: https://aquasecurity.github.io/helm-charts/
+  interval: 20m
+  type: oci
+  url: oci://ghcr.io/aquasecurity/helm-charts
