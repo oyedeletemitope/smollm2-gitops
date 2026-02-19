@@ -28,6 +28,17 @@ spec:
           create: true
     reportsController:
       enabled: true
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          memory: 256Mi
+      livenessProbe:
+        initialDelaySeconds: 60
+        periodSeconds: 30
+      readinessProbe:
+        initialDelaySeconds: 60
+        periodSeconds: 30
       rbac:
         create: true
         serviceAccount:
